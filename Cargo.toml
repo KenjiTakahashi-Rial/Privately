@@ -4,3 +4,23 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+async-trait = "0.1.80"
+axum = { version = "0.7.5", features = ["ws"] }
+axum-extra = { version = "0.9.3", features = ["typed-header"] }
+futures = "0.3.30"
+futures-util = { version = "0.3.30", default-features = false, features = ["sink", "std"] }
+headers = "0.4.0"
+httpc-test = "0.1.9"
+lazy-regex = "3.1.0"
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
+serde_with = "3.8.1"
+strum_macros = "0.26.4"
+tokio = { version = "1.38.0", features = ["full"] }
+tokio-tungstenite = "0.23.0"
+tower = { version = "0.4.13", features = ["util"] }
+tower-cookies = "0.10.0"
+tower-http = { version = "0.5.2", features = ["fs", "trace"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+uuid = { version = "1.8.0", features = ["v4", "fast-rng"] }
