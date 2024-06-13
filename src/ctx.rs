@@ -1,5 +1,6 @@
 use async_trait::async_trait;
 use axum::{extract::FromRequestParts, http::request::Parts};
+use tracing::debug;
 
 use crate::{Result, ServerError};
 
@@ -23,7 +24,7 @@ impl<S: Send + Sync> FromRequestParts<S> for Ctx {
     type Rejection = ServerError;
 
     async fn from_request_parts(parts: &mut Parts, _: &S) -> Result<Self> {
-        println!("context");
+        debug!("{:<12} - context", "CONTEXT");
 
         parts
             .extensions

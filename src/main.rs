@@ -5,11 +5,14 @@ use axum::{
     Json, Router,
 };
 
-use ctx::Ctx;
-use model::ModelController;
 use serde_json::json;
 use tower_cookies::CookieManagerLayer;
+use tracing::{debug, info};
+use tracing_subscriber::EnvFilter;
 use uuid::Uuid;
+
+use ctx::Ctx;
+use model::ModelController;
 use web::{auth, hello_router, login_router, static_router, tickets_router};
 
 mod ctx;
@@ -25,6 +28,12 @@ const DEFAULT_PORT: &str = "8080";
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    tracing_subscriber::fmt()
+        .without_time() // TODO: remove later
+        .with_target(false)
+        .with_env_filter(EnvFilter::from_default_env())
+        .init();
+
     let controller = ModelController::new().await?;
 
     let _ = tickets_router::new(controller.clone())
@@ -45,7 +54,8 @@ async fn main() -> Result<()> {
     let listener = tokio::net::TcpListener::bind(format!("{DEFAULT_IP}:{DEFAULT_PORT}"))
         .await
         .unwrap();
-    tracing::debug!("Listening on {}", listener.local_addr().unwrap());
+    let addr = listener.local_addr().unwrap();
+    info!("{:<12} - {addr}\n", "LISTENING");
     axum::serve(listener, router).await.unwrap();
 
     Ok(())
@@ -57,7 +67,7 @@ async fn response_mapper(
     req_method: Method,
     resp: Response,
 ) -> Response {
-    println!("main_response_mapper");
+    debug!("{:<12} - main_response_mapper", "MAP_RESPONSE");
 
     let uuid = Uuid::new_v4();
     let service_error = resp.extensions().get::<ServerError>();
@@ -69,7 +79,10 @@ async fn response_mapper(
             let client_error_body =
                 json!({"error": {"type": client_error.as_ref(), "reqUuid": uuid.to_string()}});
 
-            println!("client_error_body: {client_error_body}");
+            debug!(
+                "{:<12} - client_error_body: {client_error_body}",
+                "CLIENT_ERROR"
+            );
 
             (*status_code, Json(client_error_body)).into_response()
         });
@@ -77,6 +90,6 @@ async fn response_mapper(
     let client_error = client_status_error.unzip().1;
     let _ = log::log_request(uuid, req_method, uri, ctx, service_error, client_error).await;
 
-    println!();
+    debug!("\n"); // TODO: delete me
     error_response.unwrap_or(resp)
 }

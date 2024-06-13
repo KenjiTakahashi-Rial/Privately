@@ -4,6 +4,7 @@ use axum::{
 };
 use serde::Serialize;
 use strum_macros::AsRefStr;
+use tracing::debug;
 
 pub type Result<T> = core::result::Result<T, ServerError>;
 
@@ -31,7 +32,7 @@ impl ServerError {
 
 impl IntoResponse for ServerError {
     fn into_response(self) -> Response {
-        println!("error");
+        debug!("{:<12} - server error", "SERVER_ERROR");
 
         let mut response = StatusCode::INTERNAL_SERVER_ERROR.into_response();
         response.extensions_mut().insert(self);

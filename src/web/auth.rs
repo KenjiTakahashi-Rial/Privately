@@ -5,6 +5,7 @@ use axum::middleware::Next;
 use axum::response::Response;
 use lazy_regex::regex_captures;
 use tower_cookies::{Cookie, Cookies};
+use tracing::debug;
 
 use crate::model::ModelController;
 use crate::web::AUTH_TOKEN;
@@ -22,7 +23,7 @@ pub async fn require_auth(
     request: Request<Body>,
     next: Next,
 ) -> Result<Response> {
-    println!("require_auth");
+    debug!("{:<12} - require_auth", "AUTH");
     ctx?;
     Ok(next.run(request).await)
 }
@@ -33,7 +34,7 @@ pub async fn ctx_resolver(
     mut req: Request<Body>,
     next: Next,
 ) -> Result<Response> {
-    println!("ctx resolve");
+    debug!("{:<12} - ctx resolve", "CONTEXT");
 
     let result_auth_token = cookies
         .get(AUTH_TOKEN)

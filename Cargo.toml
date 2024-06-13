@@ -2,6 +2,8 @@
 name = "privately"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.78"
+authors = ["Kenji Takahashi-Rial <kenji.ob.taka@gmail.com>"]
 
 [dependencies]
 async-trait = "0.1.80"

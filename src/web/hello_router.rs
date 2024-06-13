@@ -5,6 +5,7 @@ use axum::response::IntoResponse;
 use axum::routing;
 use axum::Router;
 use serde::Deserialize;
+use tracing::debug;
 
 const DEFAULT_HELLO_NAME: &str = "world";
 
@@ -20,13 +21,13 @@ pub fn new() -> Router {
 }
 
 async fn hello_handler(Query(params): Query<HelloParams>) -> impl IntoResponse {
-    println!("hello_handler");
+    debug!("{:<12} - hello_handler", "HELLO");
     let name = params.name.as_deref().unwrap_or(DEFAULT_HELLO_NAME);
     hello_response(name)
 }
 
 async fn hello_path_handler(Path(name): Path<String>) -> impl IntoResponse {
-    println!("hello_path_handler");
+    debug!("{:<12} - hello_path_handler", "HELLO");
     hello_response(&name)
 }
 

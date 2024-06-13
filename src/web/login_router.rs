@@ -2,8 +2,9 @@ use axum::{routing, Json, Router};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use tower_cookies::{Cookie, Cookies};
+use tracing::debug;
 
-use crate::{web::AUTH_TOKEN, ServerError, Result};
+use crate::{web::AUTH_TOKEN, Result, ServerError};
 
 #[derive(Debug, Deserialize)]
 struct LoginPayload {
@@ -16,7 +17,7 @@ pub fn new() -> Router {
 }
 
 async fn api_login(cookies: Cookies, payload: Json<LoginPayload>) -> Result<Json<Value>> {
-    println!("api_login");
+    debug!("{:<12} - api_login", "LOGIN");
 
     // TODO: authentication
 
