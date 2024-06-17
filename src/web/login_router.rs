@@ -4,7 +4,10 @@ use serde_json::{json, Value};
 use tower_cookies::{Cookie, Cookies};
 use tracing::debug;
 
-use crate::{web::AUTH_TOKEN, Result, ServerError};
+use crate::{
+    error::{Result, ServerError},
+    web::AUTH_TOKEN,
+};
 
 #[derive(Debug, Deserialize)]
 struct LoginPayload {

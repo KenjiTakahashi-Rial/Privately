@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use axum::{extract::FromRequestParts, http::request::Parts};
 use tracing::debug;
 
-use crate::{Result, ServerError};
+use crate::error::{Result, ServerError};
 
 #[derive(Clone, Debug)]
 pub struct Ctx {

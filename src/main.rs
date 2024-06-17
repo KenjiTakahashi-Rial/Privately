@@ -1,3 +1,10 @@
+mod config;
+mod ctx;
+mod error;
+mod log;
+mod model;
+mod web;
+
 use axum::{
     http::{Method, Uri},
     middleware,
@@ -12,16 +19,9 @@ use tracing_subscriber::EnvFilter;
 use uuid::Uuid;
 
 use ctx::Ctx;
+use error::{Result, ServerError};
 use model::ModelController;
 use web::{auth, hello_router, login_router, static_router, tickets_router};
-
-mod ctx;
-mod error;
-mod log;
-mod model;
-mod web;
-
-pub use self::error::{Result, ServerError};
 
 const DEFAULT_IP: &str = "127.0.0.1";
 const DEFAULT_PORT: &str = "8080";

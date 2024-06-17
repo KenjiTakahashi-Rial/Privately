@@ -7,7 +7,10 @@ use serde_with::skip_serializing_none;
 use tracing::debug;
 use uuid::Uuid;
 
-use crate::{ctx::Ctx, error::ClientError, Result, ServerError};
+use crate::{
+    ctx::Ctx,
+    error::{ClientError, Result, ServerError},
+};
 
 #[derive(Serialize)]
 #[skip_serializing_none]

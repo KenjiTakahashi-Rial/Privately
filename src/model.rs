@@ -2,7 +2,10 @@ use std::sync::{Arc, Mutex};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{ctx::Ctx, Result, ServerError};
+use crate::{
+    ctx::Ctx,
+    error::{Result, ServerError},
+};
 
 #[derive(Clone, Debug, Serialize)]
 pub struct Ticket {

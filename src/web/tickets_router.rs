@@ -6,8 +6,8 @@ use tracing::debug;
 
 use crate::{
     ctx::Ctx,
+    error::Result,
     model::{CreateTicketParams, ModelController, Ticket},
-    Result,
 };
 
 pub fn new(controller: ModelController) -> Router {

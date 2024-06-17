@@ -9,7 +9,10 @@ use tracing::debug;
 
 use crate::model::ModelController;
 use crate::web::AUTH_TOKEN;
-use crate::{ctx::Ctx, Result, ServerError};
+use crate::{
+    ctx::Ctx,
+    error::{Result, ServerError},
+};
 
 #[derive(Debug)]
 pub struct AuthToken {
