@@ -16,6 +16,7 @@ pub enum ServerError {
     NoAuthToken,
     InvalidAuthToken,
     NoContext,
+    NoEnvConfig(&'static str),
 }
 
 impl ServerError {
@@ -26,6 +27,7 @@ impl ServerError {
                 (StatusCode::FORBIDDEN, ClientError::NoAuth)
             }
             Self::TicketIdNotFound { .. } => (StatusCode::BAD_REQUEST, ClientError::InvalidParams),
+            Self::NoEnvConfig(_) => (StatusCode::INTERNAL_SERVER_ERROR, ClientError::ServerError),
         }
     }
 }
@@ -46,5 +48,5 @@ pub enum ClientError {
     LoginFailed,
     NoAuth,
     InvalidParams,
-    ServiceError,
+    ServerError,
 }

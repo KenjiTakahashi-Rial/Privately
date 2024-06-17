@@ -1,3 +1,5 @@
+pub mod _dev_utils;
+
 mod config;
 mod ctx;
 mod error;
@@ -34,6 +36,9 @@ async fn main() -> Result<()> {
         .with_env_filter(EnvFilter::from_default_env())
         .init();
 
+    // DEV ONLY
+    _dev_utils::init().await;
+
     let controller = ModelController::new().await?;
 
     let _ = tickets_router::new(controller.clone())
@@ -49,7 +54,7 @@ async fn main() -> Result<()> {
             auth::ctx_resolver,
         ))
         .layer(CookieManagerLayer::new())
-        .fallback_service(static_router::new());
+        .fallback_service(static_router::route_to_dir());
 
     let listener = tokio::net::TcpListener::bind(format!("{DEFAULT_IP}:{DEFAULT_PORT}"))
         .await
